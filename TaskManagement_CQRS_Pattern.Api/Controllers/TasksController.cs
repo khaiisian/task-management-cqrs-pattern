@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TaskManagement_CQRS_Pattern.Api.Features.Tasks.Commands.CreateTasks;
+using TaskManagement_CQRS_Pattern.Api.Features.Tasks.Commands.DeleteTask;
 using TaskManagement_CQRS_Pattern.Api.Features.Tasks.Queries.GetAllTasks;
+using TaskManagement_CQRS_Pattern.Api.Features.Tasks.Queries.GetTaskById;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TaskManagement_CQRS_Pattern.Api.Controllers;
 
@@ -24,11 +27,25 @@ public class TasksController : ControllerBase
         return Ok(tasks);
     }
 
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var task = await _mediator.Send(new GetTaskByIdQuery(id));
+        return Ok(task);
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateTask(CreateTaskCommand command)
     {
         var result = await _mediator.Send(command);
         var message = result > 0 ? "Create successful" : "Create failed";
         return Ok(message);
+    }
+
+    [HttpDelete]
+    public async Task<IActionResult> DeleteTask(int id)
+    {
+        var result = await _mediator.Send(new DeleteTaskCommand(id));
+        return Ok(result);
     }
 }
