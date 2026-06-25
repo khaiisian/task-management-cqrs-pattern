@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="TaskManagement_CQRS_Pattern.Api/TaskManagement_CQRS_Pattern.Api.csproj" />
   <Project Path="TaskManagement_CQRS_Pattern.Db/TaskManagement_CQRS_Pattern.Db.csproj" />
 </Solution>
